@@ -14,11 +14,11 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneWindows
-          - StandaloneWindows64
-          - StandaloneLinux64
+          #- StandaloneWindows
+         # - StandaloneWindows64
+         # - StandaloneLinux64
           - Android
-          - WebGL
+          #- WebGL
 
     steps:
 
