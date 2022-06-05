@@ -66,7 +66,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ matrix.targetPlatform }}.zip
-          name: Release ${{ github.ref }}1
-          tag_name: ${{ github.ref }}1
-          body: Release ${{ github.ref }}
+          name: Release1
+          tag_name: one
+          body: Release 1
           prerelease: true
