@@ -1,0 +1,107 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      Android:
+        description: 'Build on android'     
+        required: true
+        default: true 
+        type: boolean
+      Windows:
+        description: 'Build on windows'
+        required: true
+        default: false
+        type: boolean
+      Windows64:
+        description: 'Build on windows 64'
+        required: true
+        default: false
+        type: boolean
+      Linux:
+        description: 'Build on linux'
+        required: true
+        default: false
+        type: boolean
+      Web:
+        description: 'Build on web'
+        required: true
+        default: false
+        type: boolean
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  - if: ${{ github.event.inputs.Android }}
+      AND = Android
+  - if: ${{ github.event.inputs.Windows }}
+      WIN = StandaloneWindows
+      WIN64 = StandaloneWindows64
+  - if: ${{ github.event.inputs.Linux }}
+      LINUX = Linux
+  - if: ${{ github.event.inputs.Web }}
+      WEB = WebGL
+
+jobs:
+  buildForAllSupportedPlatforms:
+    name: Build my project
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - ${{ env.WIN }}
+          - ${{ env.WIN64 }}
+          - ${{ env.LINUX }}
+          - ${{ env.WEB }}
+          - ${{ env.AND }}
+
+    steps:
+
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+    
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
+          restore-keys: Library-
+
+      # Test
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2
+        with:
+          unityVersion: 2021.3.3f1
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        with:
+          unityVersion: 2021.3.3f1
+          targetPlatform:  ${{ matrix.targetPlatform }}
+          allowDirtyBuild: true
+
+      # Output 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+
+      - name: Zip build
+        run: |
+          pushd build/${{ matrix.targetPlatform }}
+          zip -r ../../${{ matrix.targetPlatform }} .
+          popd
+
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ matrix.targetPlatform }}.zip
+          name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref }}-1
+          body: Release ${{ github.ref }}
+          prerelease: true
