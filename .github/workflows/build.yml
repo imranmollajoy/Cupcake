@@ -1,45 +1,10 @@
 name: Build
 
 on:
-  workflow_dispatch:
-    inputs:
-      Android:
-        description: 'Build on android'     
-        required: true
-        default: true 
-        type: boolean
-      Windows:
-        description: 'Build on windows'
-        required: true
-        default: false
-        type: boolean
-      Windows64:
-        description: 'Build on windows 64'
-        required: true
-        default: false
-        type: boolean
-      Linux:
-        description: 'Build on linux'
-        required: true
-        default: false
-        type: boolean
-      Web:
-        description: 'Build on web'
-        required: true
-        default: false
-        type: boolean
+  workflow_dispatch: {}
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  - if: ${{ github.event.inputs.Android }}
-      AND = Android
-  - if: ${{ github.event.inputs.Windows }}
-      WIN = StandaloneWindows
-      WIN64 = StandaloneWindows64
-  - if: ${{ github.event.inputs.Linux }}
-      LINUX = Linux
-  - if: ${{ github.event.inputs.Web }}
-      WEB = WebGL
 
 jobs:
   buildForAllSupportedPlatforms:
@@ -49,11 +14,11 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          - ${{ env.WIN }}
-          - ${{ env.WIN64 }}
-          - ${{ env.LINUX }}
-          - ${{ env.WEB }}
-          - ${{ env.AND }}
+          - StandaloneWindows
+          - StandaloneWindows64
+          - StandaloneLinux64
+          - Android
+          - WebGL
 
     steps:
 
