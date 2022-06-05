@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     private bool grabHeld;
     private bool grabReleased;
  
-
     [Header("Movement")]
     [SerializeField]
     float moveSpeed = 5f;
@@ -53,7 +52,6 @@ public class PlayerController : MonoBehaviour
         grabPressed = input.grabPressed;
         grabHeld = input.grabHeld;
         grabReleased = input.grabReleased;
-
     }
 
     void FixedUpdate()
