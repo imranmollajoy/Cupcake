@@ -53,8 +53,9 @@ public class PlayerController : MonoBehaviour
         grabHeld = input.grabHeld;
         grabReleased = input.grabReleased;
 
-        if(horizontal != 0){
-            Filp();
+        if(horizontal != 0)
+        {
+            transform.localScale = new Vector3(Mathf.Sign(horizontal), 1, 1);
         }
     }
 
@@ -71,14 +72,4 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Flip(){
-        if(horizontal > 0.1f)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-        else if(horizontal < -0.1f)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-    }
 }
