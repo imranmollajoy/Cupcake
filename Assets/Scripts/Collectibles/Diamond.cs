@@ -1,6 +1,3 @@
-// unityengine script
-
-
 using UnityEngine;
 using System.Collections;
 

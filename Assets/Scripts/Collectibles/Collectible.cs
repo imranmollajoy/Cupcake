@@ -26,8 +26,6 @@ public abstract class Collectible : MonoBehaviour
         }
 
         // set offset of the animator randomly
-        animator.SetFloat("Offset", Random.Range(0f, 1f));
-
-        
+        animator.SetFloat("Offset", Random.Range(0f, 1f)); 
     }
 }
