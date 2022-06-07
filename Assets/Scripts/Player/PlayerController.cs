@@ -52,6 +52,10 @@ public class PlayerController : MonoBehaviour
         grabPressed = input.grabPressed;
         grabHeld = input.grabHeld;
         grabReleased = input.grabReleased;
+
+        if(horizontal != 0){
+            Filp();
+        }
     }
 
     void FixedUpdate()
@@ -64,6 +68,17 @@ public class PlayerController : MonoBehaviour
         if (jumpPressed && isGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    void Flip(){
+        if(horizontal > 0.1f)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if(horizontal < -0.1f)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 }
