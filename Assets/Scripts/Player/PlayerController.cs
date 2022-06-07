@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     private bool grabPressed;
     private bool grabHeld;
     private bool grabReleased;
+
+    // Attack button
+    private bool attackPressed;
  
     [Header("Movement")]
     [SerializeField]
@@ -52,6 +55,7 @@ public class PlayerController : MonoBehaviour
         grabPressed = input.grabPressed;
         grabHeld = input.grabHeld;
         grabReleased = input.grabReleased;
+        attackPressed = input.attackPressed;
 
         if(horizontal != 0)
         {

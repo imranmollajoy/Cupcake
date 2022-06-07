@@ -28,6 +28,9 @@ public class PlayerInput : MonoBehaviour
     [HideInInspector] public bool grabPressed;
     [HideInInspector] public bool grabHeld;
     [HideInInspector] public bool grabReleased;
+
+    //Attack button
+    [HideInInspector] public bool attackPressed;
  
     //=====================================================
     // State
@@ -105,6 +108,9 @@ public class PlayerInput : MonoBehaviour
         grabPressed = false;
         grabHeld = false;
         grabReleased = false;
+
+        //reset attack button
+        attackPressed = false;
  
         // Just cleared the input
         readyToClear = false;
@@ -161,6 +167,6 @@ public class PlayerInput : MonoBehaviour
         // Or was pressed in a previous frame, but was not yet cleared
         grabReleased = grabReleased || grabReleasedThisFrame;
 
-        //Debug.Log($"grabPressed: {grabPressed}, moved {horizontal} {vertical}");
+        attackPressed = attackPressed || controls.Player.Attack.triggered;
     }
 }
