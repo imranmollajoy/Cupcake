@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerEntity : Entity
+public class EnemyEntity : Entity
 {
    public override void Die()
    {
-       Debug.Log("died");
+       Destroy(gameObject);
    }
    public override void TookDamage()
    {

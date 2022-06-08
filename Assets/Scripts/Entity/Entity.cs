@@ -5,17 +5,20 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     public abstract void Die();
-    public abstract void DealtDamage();
+    public abstract void DealDamage(Entity entity);
     public abstract void TookDamage();
-    [SerializeField]
     private int health = 1000;
     [SerializeField]
     private int maxHealth = 1000;
     [SerializeField]
     private int damage = 100;
+    public int Damage
+    {
+        get { return damage; }
+    }
     
     // Start is called before the first frame update
-    void Awake()
+    public void Awake()
     {
         health = maxHealth;
     }
@@ -29,10 +32,4 @@ public abstract class Entity : MonoBehaviour
             Die();
         }
     } 
-
-    public void DealDamage(Entity entity)
-    {   
-        DealtDamage();
-        entity.TakeDamage(damage);
-    }  
 }

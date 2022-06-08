@@ -45,7 +45,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Battle")]
     private PlayerEntity playerEntity;
-    private bool readyToClear;
+    private bool readyToClear = true;
+    private EnemyEntity enemyEntity;
+    private Box box;
 
     // Start is called before the first frame update
     void Awake()
@@ -78,7 +80,19 @@ public class PlayerController : MonoBehaviour
         }
         if(attackPressed && readyToClear)
         {
-            playerEntity.DealDamage(playerEntity);
+            try
+            {
+                enemyEntity?.TakeDamage(playerEntity.Damage);
+                box?.TakeDamage(playerEntity.Damage);
+                readyToClear = false;
+                StartCoroutine(Cooldown());
+            }
+            catch (System.Exception)
+            {
+                
+                Debug.Log("No enemy to attack");
+            }
+
         }
     }
 
@@ -103,6 +117,17 @@ public class PlayerController : MonoBehaviour
         {
             playerCollider.isTrigger = false;
             isOnOnewayPlatform = false;
+            UIManager.Instance.DownButton.SetActive(false);
+        }
+
+        if(col.gameObject.CompareTag("Enemy"))
+        {
+            enemyEntity = col.gameObject.GetComponent<EnemyEntity>();
+        }
+
+        if(col.gameObject.CompareTag("Destructible"))
+        {
+            box = col.gameObject.GetComponent<Box>();
         }
     }
     
@@ -111,6 +136,7 @@ public class PlayerController : MonoBehaviour
         if(col.gameObject.CompareTag("OnewayPlatform"))
         {
             isOnOnewayPlatform = true;
+            UIManager.Instance.DownButton.SetActive(true);
         }
     }
     IEnumerator Cooldown()
