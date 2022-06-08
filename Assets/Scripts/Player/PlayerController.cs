@@ -89,10 +89,8 @@ public class PlayerController : MonoBehaviour
             }
             catch (System.Exception)
             {
-                
                 Debug.Log("No enemy to attack");
             }
-
         }
     }
 

@@ -16,5 +16,4 @@ public class EnemyEntity : Entity
    {
        entity.TakeDamage(Damage);
    }
-
 }

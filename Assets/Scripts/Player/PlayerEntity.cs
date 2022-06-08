@@ -16,5 +16,4 @@ public class PlayerEntity : Entity
    {
        entity.TakeDamage(Damage);
    }
-
 }
