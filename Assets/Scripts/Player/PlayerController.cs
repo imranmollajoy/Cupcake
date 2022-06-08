@@ -38,10 +38,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
+    [Header("Oneway platform mechanics")]
+    private bool isOnOnewayPlatform = false;
+    [SerializeField]
+    private Collider2D playerCollider;
+
+    [Header("Battle")]
+    private PlayerEntity playerEntity;
+    private bool readyToClear;
+
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerEntity = GetComponent<PlayerEntity>();
     }
 
     // Update is called once per frame
@@ -61,6 +71,15 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(Mathf.Sign(horizontal), 1, 1);
         }
+        if(isOnOnewayPlatform && vertical < 0 && playerCollider.IsTouchingLayers(groundLayer))
+        {
+            // diasble the player collider
+            playerCollider.isTrigger = true;
+        }
+        if(attackPressed && readyToClear)
+        {
+            playerEntity.DealDamage(playerEntity);
+        }
     }
 
     void FixedUpdate()
@@ -74,5 +93,29 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
+    }
+
+
+    //Check if is ion oneway platform
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.gameObject.CompareTag("Ground"))
+        {
+            playerCollider.isTrigger = false;
+            isOnOnewayPlatform = false;
+        }
+    }
+    
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.CompareTag("OnewayPlatform"))
+        {
+            isOnOnewayPlatform = true;
+        }
+    }
+    IEnumerator Cooldown()
+    {
+        yield return new WaitForSeconds(0.5f);
+        readyToClear = true;
     }
 }

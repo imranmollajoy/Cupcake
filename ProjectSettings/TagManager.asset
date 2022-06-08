@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - OnewayPlatform
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -12,8 +14,8 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - DontCollideWithPlayer
+  - Player
   - 
   - 
   - 
@@ -43,6 +45,9 @@ TagManager:
     locked: 0
   - name: Decoration
     uniqueID: 3550529591
+    locked: 0
+  - name: Platforms
+    uniqueID: 1843214333
     locked: 0
   - name: Default
     uniqueID: 0
