@@ -107,7 +107,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     //Check if is ion oneway platform
     void OnTriggerEnter2D(Collider2D col)
     {
