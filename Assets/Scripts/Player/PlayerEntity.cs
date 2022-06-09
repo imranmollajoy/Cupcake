@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class PlayerEntity : Entity
 {
-   public override void Die()
-   {
-       Debug.Log("died");
-   }
-   public override void TookDamage()
-   {
-       Debug.Log("took damage");
-   }
-   public override void DealDamage(Entity entity)
-   {
-       entity.TakeDamage(Damage);
-   }
+    PlayerController playerController;
+
+    void Start()
+    {
+        playerController = GetComponent<PlayerController>();
+    }
+
+    public override void Die()
+    {
+        playerController.Died();
+    }
+
+    public override void TookDamage()
+    {
+        playerController.TookDamage();
+    }
+
+    public override void DealDamage(Entity entity)
+    {
+        entity.TakeDamage (Damage);
+    }
 }

@@ -136,27 +136,7 @@ public class PlayerController : MonoBehaviour
         }
         if (attackPressed && readyToClear)
         {
-            try
-            {
-                Collider2D[] enemies =
-                    Physics2D
-                        .OverlapCircleAll(attackPoint.position,
-                        attackRange,
-                        damageableLayer);
-                foreach (Collider2D enemy in enemies)
-                {
-                    enemy
-                        .GetComponent<Entity>()
-                        .TakeDamage(playerEntity.Damage);
-                }
-                animationPlayer.ChangeAnimationState (animator, ATTACK);
-                readyToClear = false;
-                StartCoroutine(Cooldown());
-            }
-            catch (System.Exception)
-            {
-                Debug.Log("No enemy to attack");
-            }
+            Attack();
         }
 
         //idle animation
@@ -204,6 +184,39 @@ public class PlayerController : MonoBehaviour
             isOnOnewayPlatform = true;
             UIManager.Instance.DownButton.SetActive(true);
         }
+    }
+
+    void Attack()
+    {
+        try
+        {
+            Collider2D[] enemies =
+                Physics2D
+                    .OverlapCircleAll(attackPoint.position,
+                    attackRange,
+                    damageableLayer);
+            foreach (Collider2D enemy in enemies)
+            {
+                enemy.GetComponent<Entity>().TakeDamage(playerEntity.Damage);
+            }
+            animationPlayer.ChangeAnimationState (animator, ATTACK);
+            readyToClear = false;
+            StartCoroutine(Cooldown());
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("No enemy to attack");
+        }
+    }
+
+    public void TookDamage()
+    {
+        animationPlayer.ChangeAnimationState (animator, HIT);
+    }
+
+    public void Died()
+    {
+        animationPlayer.ChangeAnimationState (animator, DIE);
     }
 
     IEnumerator Cooldown()
