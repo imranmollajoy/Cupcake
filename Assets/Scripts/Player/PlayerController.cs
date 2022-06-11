@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         grabReleased = input.grabReleased;
         attackPressed = input.attackPressed;
 
-        if (horizontal != 0 && readyToClear)
+        if (horizontal != 0 && readyToClear && isGrounded)
         {
             transform.localScale = new Vector3(Mathf.Sign(horizontal), 1, 1);
 
@@ -163,6 +163,7 @@ public class PlayerController : MonoBehaviour
         if (jumpPressed && isGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            animationPlayer.ChangeAnimationState (animator, JUMP);
         }
     }
 

@@ -5,18 +5,37 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     public abstract void Die();
+
     public abstract void DealDamage(Entity entity);
+
     public abstract void TookDamage();
+
     private int health = 1000;
+
     [SerializeField]
     private int maxHealth = 1000;
+
     [SerializeField]
     private int damage = 100;
+
+    private bool died = false;
+
     public int Damage
     {
-        get { return damage; }
+        get
+        {
+            return damage;
+        }
     }
-    
+
+    public bool Died
+    {
+        get
+        {
+            return died;
+        }
+    }
+
     // Start is called before the first frame update
     public void Awake()
     {
@@ -30,6 +49,7 @@ public abstract class Entity : MonoBehaviour
         if (health <= 0)
         {
             Die();
+            died = true;
         }
-    } 
+    }
 }

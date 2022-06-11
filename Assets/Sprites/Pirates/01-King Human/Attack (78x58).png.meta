@@ -107,12 +107,12 @@ TextureImporter:
       name: Attack (78x58)_1
       rect:
         serializedVersion: 2
-        x: 99
+        x: 78
         y: 0
-        width: 50
+        width: 78
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -128,12 +128,12 @@ TextureImporter:
       name: Attack (78x58)_2
       rect:
         serializedVersion: 2
-        x: 165
+        x: 156
         y: 0
-        width: 37
+        width: 78
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -149,12 +149,12 @@ TextureImporter:
       name: Attack (78x58)_0
       rect:
         serializedVersion: 2
-        x: 19
+        x: 0
         y: 0
-        width: 59
+        width: 78
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

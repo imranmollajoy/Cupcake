@@ -6,6 +6,7 @@ public class Box : Entity
 {
     [SerializeField]
     private Animator animator;
+
     void Start()
     {
         if (animator == null)
@@ -13,14 +14,18 @@ public class Box : Entity
             animator = GetComponent<Animator>();
         }
     }
+
     public override void Die()
     {
-        Destroy(gameObject);
+        Destroy (gameObject);
     }
+
     public override void TookDamage()
     {
+        if (!Died) return;
         animator.SetTrigger("Hit");
     }
+
     public override void DealDamage(Entity entity)
     {
         return;

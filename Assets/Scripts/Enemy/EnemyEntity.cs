@@ -38,6 +38,7 @@ public class EnemyEntity : Entity
 
     public override void TookDamage()
     {
+        if (Died) return;
         canAttack = false;
         animator.Play (HIT);
     }
@@ -59,6 +60,7 @@ public class EnemyEntity : Entity
             Entity entity = collider.GetComponent<Entity>();
             if (entity != null && canAttack)
             {
+                if (Died) return;
                 StopCoroutine(Cooldown());
                 animator.Play (ATTACK);
                 StartCoroutine(Attack(entity));
