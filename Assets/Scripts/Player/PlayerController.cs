@@ -52,6 +52,12 @@ public class PlayerController : MonoBehaviour
     private Transform groundCheck;
 
     [SerializeField]
+    private Transform playerOriginPoint;
+
+    [SerializeField]
+    private float groundCheckRadius = 0.07f;
+
+    [SerializeField]
     private LayerMask groundLayer;
 
     [Header("Oneway platform mechanics")]
@@ -230,5 +236,7 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }
