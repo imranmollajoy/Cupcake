@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     private float groundCheckRadius = 0.07f;
 
     [SerializeField]
-    private LayerMask groundLayer;
+    private LayerMask jumpLayer;
 
     [Header("Oneway platform mechanics")]
     private bool isOnOnewayPlatform = false;
@@ -131,11 +131,7 @@ public class PlayerController : MonoBehaviour
             // play the run/ealk animation
             animationPlayer.ChangeAnimationState (animator, WALK);
         }
-        if (
-            isOnOnewayPlatform &&
-            vertical < 0 &&
-            playerCollider.IsTouchingLayers(groundLayer)
-        )
+        if (isOnOnewayPlatform && vertical < 0)
         {
             // diasble the player collider
             playerCollider.isTrigger = true;
@@ -162,7 +158,7 @@ public class PlayerController : MonoBehaviour
     {
         //check if grounded
         isGrounded =
-            Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+            Physics2D.OverlapCircle(groundCheck.position, 0.2f, jumpLayer);
         rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
 
         // jump
@@ -190,6 +186,12 @@ public class PlayerController : MonoBehaviour
         {
             isOnOnewayPlatform = true;
             UIManager.Instance.DownButton.SetActive(true);
+        }
+
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            isOnOnewayPlatform = false;
+            UIManager.Instance.DownButton.SetActive(false);
         }
     }
 

@@ -145,5 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1a920d8dde8020d946906f5845b302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactButton: {fileID: 0}
   doorType: Finish
+  animator: {fileID: 3286899275674401105}
+  open: Open
+  close: Close

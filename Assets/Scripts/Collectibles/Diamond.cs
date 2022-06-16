@@ -1,10 +1,10 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class Diamond : Collectible
 {
     public override void Collect()
     {
-        Debug.Log("Diamond collected");
+        LevelInfoManager.Data.LevelInfo.Diamonds++;
     }
 }

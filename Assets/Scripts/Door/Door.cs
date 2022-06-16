@@ -17,16 +17,39 @@ public class Door : Interactable
         }
     }
 
+    [SerializeField]
+    private Animator animator;
+
+    [SerializeField]
+    [AnimatorParam("animator")]
+    private string open;
+
+    [SerializeField]
+    [AnimatorParam("animator")]
+    private string close;
+
     // Start is called before the first frame update
     void Start()
     {
         if (doorType == "Start")
         {
+            IsInteractable = false;
+            animator.SetTrigger (open);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void PlayerEntered()
     {
+        return;
+    }
+
+    public override void PlayerExited()
+    {
+        return;
+    }
+
+    public override void Interact()
+    {
+        return;
     }
 }
