@@ -28,6 +28,8 @@ public class Door : Interactable
     [AnimatorParam("animator")]
     private string close;
 
+    bool wantsToGoNextLevel = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,16 +42,23 @@ public class Door : Interactable
 
     public override void PlayerEntered()
     {
-        return;
+        animator.SetTrigger (open);
     }
 
     public override void PlayerExited()
     {
-        return;
+        animator.SetTrigger (close);
     }
 
     public override void Interact()
     {
-        return;
+        animator.SetTrigger (close);
+        wantsToGoNextLevel = true;
+    }
+
+    public void DoorClosed()
+    {
+        if (IsInteractable && wantsToGoNextLevel)
+            SceneLoader.Instance.LoadNextLevel();
     }
 }

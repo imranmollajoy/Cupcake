@@ -25,6 +25,16 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        InteractionManager.Instance.InteractPressed += InteractPressed;
+    }
+
+    void OnDisable()
+    {
+        InteractionManager.Instance.InteractPressed -= InteractPressed;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -40,6 +50,14 @@ public abstract class Interactable : MonoBehaviour
         {
             UIManager.Instance.ShowInteractButton(false);
             PlayerExited();
+        }
+    }
+
+    void InteractPressed()
+    {
+        if (isInteractable)
+        {
+            Interact();
         }
     }
 }

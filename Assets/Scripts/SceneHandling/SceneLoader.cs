@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +14,10 @@ public class SceneLoader : MonoBehaviour
     public GameObject loadingScreen;
 
     public CanvasGroup canvasGroup;
+
+    public Level[] levels;
+
+    private int currentLevelIndex = 0;
 
     void Awake()
     {
@@ -58,4 +63,20 @@ public class SceneLoader : MonoBehaviour
         }
         canvasGroup.alpha = targetValue;
     }
+
+    public void LoadNextLevel()
+    {
+        if (currentLevelIndex < levels.Length - 1)
+        {
+            LoadScene(levels[currentLevelIndex + 1].levelName);
+            currentLevelIndex++;
+        }
+    }
+}
+
+[System.Serializable]
+public class Level
+{
+    [Scene]
+    public string levelName;
 }

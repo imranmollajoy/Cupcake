@@ -114,59 +114,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontal = input.horizontal;
-        vertical = input.vertical;
-        horizontalRaw = input.horizontalRaw;
-        verticalRaw = input.verticalRaw;
-        jumpPressed = input.jumpPressed;
-        grabPressed = input.grabPressed;
-        grabHeld = input.grabHeld;
-        grabReleased = input.grabReleased;
-        attackPressed = input.attackPressed;
-
-        if (horizontal != 0 && readyToClear && isGrounded)
-        {
-            transform.localScale = new Vector3(Mathf.Sign(horizontal), 1, 1);
-
-            // play the run/ealk animation
-            animationPlayer.ChangeAnimationState (animator, WALK);
-        }
-        if (isOnOnewayPlatform && vertical < 0)
-        {
-            // diasble the player collider
-            playerCollider.isTrigger = true;
-        }
-        if (attackPressed && readyToClear)
-        {
-            Attack();
-        }
-
-        //idle animation
-        if (
-            horizontal == 0 &&
-            !attackPressed &&
-            !grabPressed &&
-            !jumpPressed &&
-            readyToClear
-        )
-        {
-            animationPlayer.ChangeAnimationState (animator, IDLE);
-        }
+        GetInput();
+        GetDownFromOnewayPlatform();
+        Attack();
+        Animation();
     }
 
     void FixedUpdate()
     {
-        //check if grounded
-        isGrounded =
-            Physics2D.OverlapCircle(groundCheck.position, 0.2f, jumpLayer);
-        rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
-
-        // jump
-        if (jumpPressed && isGrounded)
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            animationPlayer.ChangeAnimationState (animator, JUMP);
-        }
+        CheckIfGrounded();
+        WalkAndFlip();
+        Jump();
     }
 
     //Check if is ion oneway platform
@@ -195,27 +153,98 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void GetInput()
+    {
+        horizontal = input.horizontal;
+        vertical = input.vertical;
+        horizontalRaw = input.horizontalRaw;
+        verticalRaw = input.verticalRaw;
+        jumpPressed = input.jumpPressed;
+        grabPressed = input.grabPressed;
+        grabHeld = input.grabHeld;
+        grabReleased = input.grabReleased;
+        attackPressed = input.attackPressed;
+    }
+
     void Attack()
     {
-        try
+        if (attackPressed && readyToClear)
         {
-            Collider2D[] enemies =
-                Physics2D
-                    .OverlapCircleAll(attackPoint.position,
-                    attackRange,
-                    damageableLayer);
-            foreach (Collider2D enemy in enemies)
+            try
             {
-                enemy.GetComponent<Entity>().TakeDamage(playerEntity.Damage);
+                Collider2D[] enemies =
+                    Physics2D
+                        .OverlapCircleAll(attackPoint.position,
+                        attackRange,
+                        damageableLayer);
+                foreach (Collider2D enemy in enemies)
+                {
+                    enemy
+                        .GetComponent<Entity>()
+                        .TakeDamage(playerEntity.Damage);
+                }
+                animationPlayer.ChangeAnimationState (animator, ATTACK);
+                readyToClear = false;
+                StartCoroutine(Cooldown());
             }
-            animationPlayer.ChangeAnimationState (animator, ATTACK);
-            readyToClear = false;
-            StartCoroutine(Cooldown());
+            catch (System.Exception)
+            {
+                Debug.Log("No enemy to attack");
+            }
         }
-        catch (System.Exception)
+    }
+
+    void Animation()
+    {
+        //idle animation
+        if (
+            horizontal == 0 &&
+            !attackPressed &&
+            !grabPressed &&
+            !jumpPressed &&
+            readyToClear
+        )
         {
-            Debug.Log("No enemy to attack");
+            animationPlayer.ChangeAnimationState (animator, IDLE);
         }
+    }
+
+    void WalkAndFlip()
+    {
+        if (horizontal != 0 && readyToClear && isGrounded)
+        {
+            transform.localScale = new Vector3(Mathf.Sign(horizontal), 1, 1);
+
+            // play the run/ealk animation
+            animationPlayer.ChangeAnimationState (animator, WALK);
+        }
+    }
+
+    void Jump()
+    {
+        // jump
+        if (jumpPressed && isGrounded)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            animationPlayer.ChangeAnimationState (animator, JUMP);
+        }
+    }
+
+    void GetDownFromOnewayPlatform()
+    {
+        if (isOnOnewayPlatform && vertical < 0)
+        {
+            // diasble the player collider
+            playerCollider.isTrigger = true;
+        }
+    }
+
+    void CheckIfGrounded()
+    {
+        //check if grounded
+        isGrounded =
+            Physics2D.OverlapCircle(groundCheck.position, 0.2f, jumpLayer);
+        rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
     }
 
     public void TookDamage()
