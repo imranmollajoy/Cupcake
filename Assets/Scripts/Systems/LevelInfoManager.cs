@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelInfoManager : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class LevelInfoManager : MonoBehaviour
             Data = this;
         else
             Destroy(gameObject);
+    }
+
+    void Start()
+    {
+        SceneLoader.Instance.CurrentLevelIndex =
+            SceneManager.GetActiveScene().buildIndex - 2;
     }
 
     public void Died()

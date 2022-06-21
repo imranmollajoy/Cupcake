@@ -23,6 +23,18 @@ public class SceneLoader : MonoBehaviour
 
     private int currentLevelIndex = 0;
 
+    public int CurrentLevelIndex
+    {
+        get
+        {
+            return currentLevelIndex;
+        }
+        set
+        {
+            currentLevelIndex = value;
+        }
+    }
+
     void Awake()
     {
         if (Instance == null)
@@ -73,7 +85,8 @@ public class SceneLoader : MonoBehaviour
         if (currentLevelIndex < levels.Length - 1)
         {
             LoadScene(levels[currentLevelIndex + 1]);
-            currentLevelIndex++;
+            // currentLevelIndex ia aetting by levelInfoManager
+            // currentLevelIndex++;
         }
         else
         {

@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
         if (isOnOnewayPlatform && vertical < 0)
         {
             // diasble the player collider
-            playerCollider.isTrigger = true;
+            // playerCollider.isTrigger = true;
         }
     }
 

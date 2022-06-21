@@ -299,7 +299,7 @@ MonoBehaviour:
   levels:
   - Level1
   - Level2
-  mainScene: Splash
+  mainScene: MainMenu
 --- !u!1 &1371611586174652961
 GameObject:
   m_ObjectHideFlags: 0

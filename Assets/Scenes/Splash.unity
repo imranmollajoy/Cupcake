@@ -584,7 +584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 7
-  sceneName: Level1
+  sceneName: MainMenu
 --- !u!4 &1499843651
 Transform:
   m_ObjectHideFlags: 0
