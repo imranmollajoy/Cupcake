@@ -22,6 +22,12 @@ public class LevelInfoManager : MonoBehaviour
 
     public void Died()
     {
+        StartCoroutine(ChangePosOfPlayer());
+    }
+
+    IEnumerator ChangePosOfPlayer()
+    {
+        yield return new WaitForSeconds(0.5f);
         checkpointSystem.Player.position =
             checkpointSystem.CurrentCheckpoint.position;
     }

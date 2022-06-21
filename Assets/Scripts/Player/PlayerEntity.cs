@@ -15,6 +15,7 @@ public class PlayerEntity : Entity
     {
         LevelInfoManager.Data.Died();
         playerController.Died();
+        StartCoroutine(EnableInput());
     }
 
     public override void TookDamage()
@@ -25,5 +26,11 @@ public class PlayerEntity : Entity
     public override void DealDamage(Entity entity)
     {
         entity.TakeDamage (Damage);
+    }
+
+    IEnumerator EnableInput()
+    {
+        yield return new WaitForSeconds(0.5f);
+        playerController.InputHandling(true);
     }
 }

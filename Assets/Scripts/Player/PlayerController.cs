@@ -85,6 +85,8 @@ public class PlayerController : MonoBehaviour
     private AnimationPlayer animationPlayer;
 
     private Animator animator;
+
+    bool isDead;
 #endregion
 
 
@@ -184,7 +186,7 @@ public class PlayerController : MonoBehaviour
     void Animation()
     {
         //idle animation
-        if (horizontal == 0 && isGrounded)
+        if (horizontal == 0 && isGrounded && !isDead)
         {
             animationPlayer.ChangeAnimationState (animator, IDLE);
         }
@@ -192,6 +194,7 @@ public class PlayerController : MonoBehaviour
 
     void WalkAndFlip()
     {
+        if (isDead) return;
         rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
         if (horizontal != 0 && isGrounded)
         {
@@ -205,7 +208,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         // jump
-        if (jumpPressed && isGrounded)
+        if (jumpPressed && isGrounded && !isDead)
         {
             animationPlayer.ChangeAnimationState (animator, JUMP);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -236,6 +239,18 @@ public class PlayerController : MonoBehaviour
     public void Died()
     {
         animationPlayer.ChangeAnimationState (animator, DIE);
+        isDead = true;
+    }
+
+    public void InputHandling(bool enabled)
+    {
+        if (!enabled)
+            input.controls.Player.Disable();
+        else
+        {
+            input.controls.Player.Enable();
+            isDead = false;
+        }
     }
 
     // IEnumerator Cooldown()
