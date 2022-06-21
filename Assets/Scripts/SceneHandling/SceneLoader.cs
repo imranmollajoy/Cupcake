@@ -15,7 +15,11 @@ public class SceneLoader : MonoBehaviour
 
     public CanvasGroup canvasGroup;
 
-    public Level[] levels;
+    [Scene]
+    public string[] levels;
+
+    [Scene]
+    public string mainScene;
 
     private int currentLevelIndex = 0;
 
@@ -68,15 +72,12 @@ public class SceneLoader : MonoBehaviour
     {
         if (currentLevelIndex < levels.Length - 1)
         {
-            LoadScene(levels[currentLevelIndex + 1].levelName);
+            LoadScene(levels[currentLevelIndex + 1]);
             currentLevelIndex++;
         }
+        else
+        {
+            LoadScene (mainScene);
+        }
     }
-}
-
-[System.Serializable]
-public class Level
-{
-    [Scene]
-    public string levelName;
 }

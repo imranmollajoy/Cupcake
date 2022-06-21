@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class Door : Interactable
+public class Door : MonoBehaviour
 {
     [SerializeField]
     [Dropdown("DoorTypes")]
@@ -33,32 +33,19 @@ public class Door : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        if (doorType == "Start")
-        {
-            IsInteractable = false;
-            animator.SetTrigger (open);
-        }
-    }
-
-    public override void PlayerEntered()
-    {
         animator.SetTrigger (open);
     }
 
-    public override void PlayerExited()
+    void OnTriggerEnter2D(Collider2D col)
     {
+        if (doorType == "Finish") wantsToGoNextLevel = true;
         animator.SetTrigger (close);
     }
 
-    public override void Interact()
-    {
-        animator.SetTrigger (close);
-        wantsToGoNextLevel = true;
-    }
-
+    // Called from animator event
     public void DoorClosed()
     {
-        if (IsInteractable && wantsToGoNextLevel)
+        if (doorType == "Finish" && wantsToGoNextLevel)
             SceneLoader.Instance.LoadNextLevel();
     }
 }

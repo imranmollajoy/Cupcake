@@ -1,0 +1,35 @@
+fileFormatVersion: 2
+guid: 4d7fccee40a76823992e9a7487a6d4d9
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: aaa16bfc62c086f4fb45da87b6acf9b1, type: 3}
+  _jsonFile: {fileID: -164016180542632921, guid: 4d7fccee40a76823992e9a7487a6d4d9, type: 3}
+  _pixelsPerUnit: 16
+  _atlas: {instanceID: 0}
+  _customLevelPrefab: {instanceID: 0}
+  _deparentInRuntime: 0
+  _intGridValueColorsVisible: 0
+  _useCompositeCollider: 1
+  _createBackgroundColor: 1
+  _intGridValues:
+  - _key: Oneway_1
+    _asset: {instanceID: 0}
+  - _key: Oneway_2
+    _asset: {instanceID: 0}
+  - _key: Collision_1
+    _asset: {instanceID: 0}
+  _entities:
+  - _key: Door
+    _asset: {instanceID: 0}
+  - _key: Enemies
+    _asset: {instanceID: 0}
+  - _key: Collectibles
+    _asset: {fileID: 3148702142476886349, guid: 37a729fc9a896a4a29e639b902eeba4b, type: 3}
+  _enumGenerate: 1
+  _enumPath: 
+  _enumNamespace: 

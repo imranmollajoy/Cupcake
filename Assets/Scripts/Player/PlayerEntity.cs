@@ -13,6 +13,7 @@ public class PlayerEntity : Entity
 
     public override void Die()
     {
+        LevelInfoManager.Data.Died();
         playerController.Died();
     }
 

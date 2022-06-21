@@ -25,16 +25,6 @@ public class PlayerController : MonoBehaviour
     // Jump button
     private bool jumpPressed;
 
-    // Grab button
-    private bool grabPressed;
-
-    private bool grabHeld;
-
-    private bool grabReleased;
-
-    // Attack button
-    private bool attackPressed;
-
     [Header("Movement")]
     [SerializeField]
     float moveSpeed = 5f;
@@ -69,17 +59,13 @@ public class PlayerController : MonoBehaviour
     [Header("Battle")]
     private PlayerEntity playerEntity;
 
-    private bool readyToClear = true;
-
-    [SerializeField]
-    private Transform attackPoint;
-
-    [SerializeField]
-    private LayerMask damageableLayer;
-
-    [SerializeField]
-    private float attackRange = 0.5f;
-
+    // private bool readyToClear = true;
+    // [SerializeField]
+    // private Transform attackPoint;
+    // [SerializeField]
+    // private LayerMask damageableLayer;
+    // [SerializeField]
+    // private float attackRange = 0.5f;
 
 #region Animator
 
@@ -116,7 +102,8 @@ public class PlayerController : MonoBehaviour
     {
         GetInput();
         GetDownFromOnewayPlatform();
-        Attack();
+
+        // Attack();
         Animation();
     }
 
@@ -160,50 +147,44 @@ public class PlayerController : MonoBehaviour
         horizontalRaw = input.horizontalRaw;
         verticalRaw = input.verticalRaw;
         jumpPressed = input.jumpPressed;
-        grabPressed = input.grabPressed;
-        grabHeld = input.grabHeld;
-        grabReleased = input.grabReleased;
-        attackPressed = input.attackPressed;
+        // grabPressed = input.grabPressed;
+        // grabHeld = input.grabHeld;
+        // grabReleased = input.grabReleased;
+        // attackPressed = input.attackPressed;
     }
 
-    void Attack()
-    {
-        if (attackPressed && readyToClear)
-        {
-            try
-            {
-                Collider2D[] enemies =
-                    Physics2D
-                        .OverlapCircleAll(attackPoint.position,
-                        attackRange,
-                        damageableLayer);
-                foreach (Collider2D enemy in enemies)
-                {
-                    enemy
-                        .GetComponent<Entity>()
-                        .TakeDamage(playerEntity.Damage);
-                }
-                animationPlayer.ChangeAnimationState (animator, ATTACK);
-                readyToClear = false;
-                StartCoroutine(Cooldown());
-            }
-            catch (System.Exception)
-            {
-                Debug.Log("No enemy to attack");
-            }
-        }
-    }
-
+    // void Attack()
+    // {
+    //     return; // Attacking is overrated
+    //     if (attackPressed && readyToClear)
+    //     {
+    //         try
+    //         {
+    //             Collider2D[] enemies =
+    //                 Physics2D
+    //                     .OverlapCircleAll(attackPoint.position,
+    //                     attackRange,
+    //                     damageableLayer);
+    //             foreach (Collider2D enemy in enemies)
+    //             {
+    //                 enemy
+    //                     .GetComponent<Entity>()
+    //                     .TakeDamage(playerEntity.Damage);
+    //             }
+    //             animationPlayer.ChangeAnimationState (animator, ATTACK);
+    //             readyToClear = false;
+    //             StartCoroutine(Cooldown());
+    //         }
+    //         catch (System.Exception)
+    //         {
+    //             Debug.Log("No enemy to attack");
+    //         }
+    //     }
+    // }
     void Animation()
     {
         //idle animation
-        if (
-            horizontal == 0 &&
-            !attackPressed &&
-            !grabPressed &&
-            !jumpPressed &&
-            readyToClear
-        )
+        if (horizontal == 0 && isGrounded)
         {
             animationPlayer.ChangeAnimationState (animator, IDLE);
         }
@@ -211,7 +192,8 @@ public class PlayerController : MonoBehaviour
 
     void WalkAndFlip()
     {
-        if (horizontal != 0 && readyToClear && isGrounded)
+        rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
+        if (horizontal != 0 && isGrounded)
         {
             transform.localScale = new Vector3(Mathf.Sign(horizontal), 1, 1);
 
@@ -225,8 +207,8 @@ public class PlayerController : MonoBehaviour
         // jump
         if (jumpPressed && isGrounded)
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             animationPlayer.ChangeAnimationState (animator, JUMP);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
 
@@ -244,7 +226,6 @@ public class PlayerController : MonoBehaviour
         //check if grounded
         isGrounded =
             Physics2D.OverlapCircle(groundCheck.position, 0.2f, jumpLayer);
-        rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
     }
 
     public void TookDamage()
@@ -257,16 +238,15 @@ public class PlayerController : MonoBehaviour
         animationPlayer.ChangeAnimationState (animator, DIE);
     }
 
-    IEnumerator Cooldown()
-    {
-        yield return new WaitForSeconds(0.5f);
-        readyToClear = true;
-    }
-
+    // IEnumerator Cooldown()
+    // {
+    //     yield return new WaitForSeconds(0.5f);
+    //     readyToClear = true;
+    // }
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        // Gizmos.color = Color.blue;
+        // Gizmos.DrawWireSphere(attackPoint.position, attackRange);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
